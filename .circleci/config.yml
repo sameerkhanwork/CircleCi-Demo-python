@@ -18,6 +18,29 @@ jobs:
       - image: cimg/python:3.11
     steps:
       - run: echo "Deploying to production server"
+  sonar-scan:
+    docker:
+      - image: cimg/openjdk:17.0
+    environment:
+      SONAR_SCANNER_VERSION: 7.0.2.4839
+      SONAR_SCANNER_HOME: /home/circleci/.sonar/sonar-scanner-7.0.2.4839-linux-x64
+    steps:
+      - checkout
+      
+      - run:
+        name: Install SonarScanner CLI (Linux)
+        command: |
+          export SONAR_SCANNER_VERSION=7.0.2.4839
+          export SONAR_SCANNER_HOME=$HOME/.sonar/sonar-scanner-$SONAR_SCANNER_VERSION-linux-x64
+          curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux-x64.zip
+          unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
+          export PATH=$SONAR_SCANNER_HOME/bin:$PATH
+      - run: |
+          sonar-scanner \
+          -Dsonar.projectKey=demo3 \
+          -Dsonar.sources=. \
+          -Dsonar.host.url=http://localhost:9000
+
 
 workflows:
   build_and_test_deploy:
@@ -26,9 +49,12 @@ workflows:
       - test:
           requires:
             - build 
-      - deploy:
+      - sonar-scan:
           requires:
             - test
+      - deploy:
+          requires:
+            - sonar-scan
           filters:
             branches:
               only: main
