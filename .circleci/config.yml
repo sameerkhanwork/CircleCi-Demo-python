@@ -35,11 +35,13 @@ jobs:
           curl --create-dirs -sSLo $HOME/.sonar/sonar-scanner.zip https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-$SONAR_SCANNER_VERSION-linux-x64.zip
           unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
           export PATH=$SONAR_SCANNER_HOME/bin:$PATH
-      - run: |
-          sonar-scanner \
-          -Dsonar.projectKey=demo3 \
-          -Dsonar.sources=. \
-          -Dsonar.host.url=http://localhost:9000
+      - run: 
+          name: run Sonar Scanner
+          command: |
+            sonar-scanner \
+            -Dsonar.projectKey=demo3 \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=http://localhost:9000
 
 
 workflows:
