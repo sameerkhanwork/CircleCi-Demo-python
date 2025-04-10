@@ -1,23 +1,31 @@
 version: 2.1
 
 jobs:
+
+  #first job
   build:
     docker:
       - image: cimg/python:3.11
     steps:
       - checkout
       - run: python main.py
+
+  #second job
   test:
     docker:
       - image: cimg/python:3.11
     steps:
       - checkout
       - run: python tests.py
+
+  #third job
   deploy:
     docker:
       - image: cimg/python:3.11
     steps:
       - run: echo "Deploying to production server"
+
+  #fourth job
   sonar-scan:
     docker:
       - image: cimg/openjdk:17.0
@@ -33,15 +41,10 @@ jobs:
             export PATH=$SONAR_SCANNER_HOME/bin:$PATH
             
             sonar-scanner \
-            -Dsonar.projectKey=demo1 \
+            -Dsonar.projectKey=$PROJECT_KEY \
             -Dsonar.sources=. \
-            -Dsonar.host.url=http://34.238.136.19:9000
-            # sonar-scanner \
-            # -Dsonar.projectKey=demo1 \
-            # -Dsonar.sources=. \
-            # -Dsonar.host.url=http://34.238.136.19:9000
-            # -Dsonar.login=$SONAR_TOKEN
-
+            -Dsonar.host.url=$SONARQUBE_HOST_URL
+            
 
 workflows:
   build_and_test_deploy:
