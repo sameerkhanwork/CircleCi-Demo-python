@@ -43,7 +43,7 @@ jobs:
             sonar-scanner \
             -Dsonar.projectKey=demo3 \
             -Dsonar.sources=. \
-            -Dsonar.host.url=http://54.208.144.88:9000
+            -Dsonar.host.url=http://34.238.136.19:9000
             -Dsonar.login=$SONAR_TOKEN
 
 
