@@ -41,7 +41,7 @@ jobs:
           name: run Sonar Scanner
           command: |
             sonar-scanner \
-            -Dsonar.projectKey=demo3 \
+            -Dsonar.projectKey=demo1 \
             -Dsonar.sources=. \
             -Dsonar.host.url=http://34.238.136.19:9000
             -Dsonar.login=$SONAR_TOKEN
