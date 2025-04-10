@@ -33,7 +33,6 @@ jobs:
             export PATH=$SONAR_SCANNER_HOME/bin:$PATH
             
             sonar-scanner \
-            -Dsonar.login=$SONAR_TOKEN
             -Dsonar.projectKey=demo1 \
             -Dsonar.sources=. \
             -Dsonar.host.url=http://34.238.136.19:9000
